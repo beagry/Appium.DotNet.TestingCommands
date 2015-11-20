@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
+using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace AppiumTestApp
 {
@@ -44,6 +48,31 @@ namespace AppiumTestApp
 
             el.SendKeys("abc");
             Assert.AreEqual(el.Text,"abc","Проверка не пройдена");
+        }
+
+
+//        [FindsBy(How = How.ClassName, Using = "theClassOfAnElement")]
+//        IWebElement targetElement;
+
+        [TestMethod]
+        public void AppiumDriverPressMethod()
+        {
+
+            var elements = _driver.FindElementsByAndroidUIAutomator("new UiSelector().enabled(true)");
+            var button = elements[11];
+
+            TouchAction a1 = new TouchAction(_driver);
+                a1
+                  .Press(button)
+                  .Wait(1000)
+                  .Release();
+                a1.Perform();
+
+            elements = _driver.FindElementsByAndroidUIAutomator("new UiSelector().enabled(true)");
+            var textV = elements[19];
+            textV.SendKeys("495");
+
+            Assert.AreEqual(textV.Text,495.ToString());
         }
     }
 
